@@ -30,7 +30,11 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "unsafe-dev-key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DJANGO_DEBUG", "0") == "1"
 
-ALLOWED_HOSTS = ["webserver"]
+ALLOWED_HOSTS = [
+    "webserver", 
+    "python-project-52.onrender.com",
+]
+
 if DEBUG:
     ALLOWED_HOSTS = ["webserver", "localhost", "127.0.0.1"]
 
