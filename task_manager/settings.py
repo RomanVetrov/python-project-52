@@ -32,7 +32,7 @@ DEBUG = os.getenv("DJANGO_DEBUG", "0") == "1"
 
 ALLOWED_HOSTS = [
     "webserver", 
-    "https://python-project-52-1tyu.onrender.com",
+    ".onrender.com",
 ]
 
 if DEBUG:
