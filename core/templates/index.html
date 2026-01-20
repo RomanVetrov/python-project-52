@@ -1,6 +1,7 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
-<h1>Welcome to Task Manager</h1>
-<p>This is the main page.</p>
+<h1>{% trans "Welcome to Task Manager" %}</h1>
+<p>{% trans "This is the main page." %}</p>
 {% endblock %}
