@@ -1,3 +1,69 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
+from django.urls import reverse
 
-# Create your tests here.
+
+class UsersCrudTests(TestCase):
+    fixtures = ['users.json']
+
+    def test_create_user(self):
+        url = reverse('users:create')
+        response = self.client.post(url, data={
+            'username': 'newuser',
+            'first_name': 'New',
+            'last_name': 'User',
+            'email': 'new@example.com',
+            'password1': 'StrongPass12345',
+            'password2': 'StrongPass12345',
+        })
+        self.assertRedirects(response, reverse('login'))
+        self.assertTrue(User.objects.filter(username='newuser').exists())
+
+    def test_update_own_user(self):
+        self.client.login(username='user1', password='pass12345')
+        user = User.objects.get(username='user1')
+
+        url = reverse('users:update', args=[user.id])
+        response = self.client.post(url, data={
+            'username': user.username,
+            'first_name': 'Changed',
+            'last_name': user.last_name,
+            'email': user.email,
+        })
+        self.assertRedirects(response, reverse('users:list'))
+
+        user.refresh_from_db()
+        self.assertEqual(user.first_name, 'Changed')
+
+    def test_delete_own_user(self):
+        self.client.login(username='user1', password='pass12345')
+        user = User.objects.get(username='user1')
+
+        url = reverse('users:delete', args=[user.id])
+        response = self.client.post(url)
+        self.assertRedirects(response, reverse('users:list'))
+        self.assertFalse(User.objects.filter(id=user.id).exists())
+
+    def test_cannot_update_other_user(self):
+        self.client.login(username='user1', password='pass12345')
+        other = User.objects.get(username='user2')
+
+        url = reverse('users:update', args=[other.id])
+        response = self.client.post(url, data={
+            'username': other.username,
+            'first_name': 'Hacked',
+            'last_name': other.last_name,
+            'email': other.email,
+        })
+        self.assertRedirects(response, reverse('users:list'))
+
+        other.refresh_from_db()
+        self.assertNotEqual(other.first_name, 'Hacked')
+
+    def test_login_redirects_to_index(self):
+        url = reverse('login')
+        response = self.client.post(url, data={
+            'username': 'user1',
+            'password': 'pass12345',
+        })
+        self.assertRedirects(response, reverse('index'))
