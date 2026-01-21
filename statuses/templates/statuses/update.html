@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+{% block content %}
+  <h1 class="mb-4">{% trans "Update status" %}</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% bootstrap_button button_type="submit" content=_("Update") %}
+  </form>
+{% endblock %}
