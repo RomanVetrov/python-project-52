@@ -43,3 +43,9 @@ msgstr "Добро пожаловать в менеджер задач"
 #: core/templates/index.html:6
 msgid "This is the main page."
 msgstr "Это главная страница."
+
+msgid "Statuses"
+msgstr "Статусы"
+
+msgid "Logout"
+msgstr "Выход"
