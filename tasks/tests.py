@@ -63,13 +63,22 @@ class TasksCrudTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Task 1")
 
+    def test_only_author_can_delete_task(self):
+        self.client.force_login(self.user2)  # <-- вместо login по паролю
 
-def test_only_author_can_delete_task(self):
-    self.client.force_login(self.user2)  # <-- вместо login по паролю
+        response = self.client.post(
+            reverse("tasks:delete", args=[self.task.id]), follow=True
+        )
 
-    response = self.client.post(
-        reverse("tasks:delete", args=[self.task.id]), follow=True
-    )
+        self.assertTrue(Task.objects.filter(id=self.task.id).exists())  # НЕ удалилось
+        self.assertContains(response, "Только автор задачи может удалить её")
 
-    self.assertTrue(Task.objects.filter(id=self.task.id).exists())  # НЕ удалилось
-    self.assertContains(response, "Только автор задачи может удалить её")
+    def test_author_can_delete_task(self):
+        self.client.force_login(self.user1)
+
+        response = self.client.post(
+            reverse("tasks:delete", args=[self.task.id]), follow=True
+        )
+
+        self.assertRedirects(response, reverse("tasks:list"))
+        self.assertFalse(Task.objects.filter(id=self.task.id).exists())

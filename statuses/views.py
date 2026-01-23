@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.db.models.deletion import ProtectedError
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+from django.utils.translation import gettext_lazy as _
 
 from core.mixins import LoginRequiredMessageMixin
 
@@ -22,7 +23,7 @@ class StatusCreateView(LoginRequiredMessageMixin, CreateView):
     success_url = reverse_lazy("statuses:list")
 
     def form_valid(self, form):
-        messages.success(self.request, "Статус успешно создан")
+        messages.success(self.request, _("Статус успешно создан"))
         return super().form_valid(form)
 
 
@@ -33,7 +34,7 @@ class StatusUpdateView(LoginRequiredMessageMixin, UpdateView):
     success_url = reverse_lazy("statuses:list")
 
     def form_valid(self, form):
-        messages.success(self.request, "Статус успешно изменён")
+        messages.success(self.request, _("Статус успешно изменён"))
         return super().form_valid(form)
 
 
@@ -47,9 +48,10 @@ class StatusDeleteView(LoginRequiredMessageMixin, DeleteView):
             response = super().form_valid(form)
         except ProtectedError:
             messages.error(
-                self.request, "Невозможно удалить статус, потому что он используется"
+                self.request,
+                _("Невозможно удалить статус, потому что он используется"),
             )
             return self.render_to_response(self.get_context_data())
 
-        messages.success(self.request, "Статус успешно удалён")
+        messages.success(self.request, _("Статус успешно удалён"))
         return response

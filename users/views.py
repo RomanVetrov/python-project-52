@@ -3,11 +3,13 @@ from django.contrib.auth import logout
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
+from django.db.models.deletion import ProtectedError
 from django.http import HttpResponseNotAllowed
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+from django.utils.translation import gettext_lazy as _
 
 from .forms import SignupForm, UserUpdateForm
 
@@ -34,7 +36,7 @@ class OnlySelfMixin(UserPassesTestMixin):
 
     def handle_no_permission(self):
         messages.error(
-            self.request, "У вас нет прав для изменения другого пользователя"
+            self.request, _("У вас нет прав для изменения другого пользователя")
         )
         return redirect("users:list")
 
@@ -46,7 +48,7 @@ class UserUpdateView(OnlySelfMixin, UpdateView):
     success_url = reverse_lazy("users:list")  # после изменения на список пользователей
 
     def form_valid(self, form):
-        messages.success(self.request, "Пользователь успешно изменён")
+        messages.success(self.request, _("Пользователь успешно изменён"))
         return super().form_valid(form)
 
 
@@ -56,8 +58,17 @@ class UserDeleteView(OnlySelfMixin, DeleteView):
     success_url = reverse_lazy("users:list")
 
     def form_valid(self, form):
-        messages.success(self.request, "Пользователь успешно удалён")
-        return super().form_valid(form)
+        try:
+            response = super().form_valid(form)
+        except ProtectedError:
+            messages.error(
+                self.request,
+                _("Невозможно удалить пользователя, потому что он используется"),
+            )
+            return redirect("users:list")
+
+        messages.success(self.request, _("Пользователь успешно удалён"))
+        return response
 
 
 class UserLoginView(LoginView):
@@ -65,7 +76,7 @@ class UserLoginView(LoginView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        messages.success(self.request, "Вы залогинены")
+        messages.success(self.request, _("Вы залогинены"))
         return response
 
     def get_success_url(self):
@@ -75,7 +86,7 @@ class UserLoginView(LoginView):
 class UserLogoutView(View):
     def post(self, request, *args, **kwargs):
         logout(request)
-        messages.info(request, "Вы разлогинены")
+        messages.info(request, _("Вы разлогинены"))
         return redirect("index")
 
     def get(self, request, *args, **kwargs):

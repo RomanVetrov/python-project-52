@@ -2,6 +2,9 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 
+from statuses.models import Status
+from tasks.models import Task
+
 
 class UsersCrudTests(TestCase):
     fixtures = ["users.json"]
@@ -79,3 +82,22 @@ class UsersCrudTests(TestCase):
             },
         )
         self.assertRedirects(response, reverse("index"))
+
+    def test_cannot_delete_user_with_tasks(self):
+        self.client.login(username="user1", password="pass12345")
+        user = User.objects.get(username="user1")
+        status = Status.objects.create(name="новый")
+        Task.objects.create(
+            name="Task linked",
+            description="",
+            status=status,
+            author=user,
+        )
+
+        url = reverse("users:delete", args=[user.id])
+        response = self.client.post(url, follow=True)
+
+        self.assertTrue(User.objects.filter(id=user.id).exists())
+        self.assertContains(
+            response, "Невозможно удалить пользователя, потому что он используется"
+        )

@@ -3,10 +3,11 @@ from urllib.parse import urlencode
 from django.contrib import messages
 from django.contrib.auth.mixins import AccessMixin
 from django.shortcuts import redirect
+from django.utils.translation import gettext_lazy as _
 
 
 class LoginRequiredMessageMixin(AccessMixin):
-    message = "Вы не авторизованы! Пожалуйста, выполните вход."
+    message = _("Вы не авторизованы! Пожалуйста, выполните вход.")
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
