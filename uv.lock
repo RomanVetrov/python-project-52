@@ -72,6 +72,10 @@ dependencies = [
     { name = "gunicorn" },
     { name = "psycopg2-binary" },
     { name = "python-dotenv" },
+]
+
+[package.optional-dependencies]
+dev = [
     { name = "ruff" },
 ]
 
@@ -83,8 +87,9 @@ requires-dist = [
     { name = "gunicorn", specifier = ">=23.0.0" },
     { name = "psycopg2-binary", specifier = ">=2.9.11" },
     { name = "python-dotenv", specifier = ">=1.2.1" },
-    { name = "ruff", specifier = ">=0.14.14" },
+    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.14.14" },
 ]
+provides-extras = ["dev"]
 
 [[package]]
 name = "packaging"
