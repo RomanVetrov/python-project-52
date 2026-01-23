@@ -11,4 +11,23 @@ dependencies = [
     "gunicorn>=23.0.0",
     "psycopg2-binary>=2.9.11",
     "python-dotenv>=1.2.1",
+    "ruff>=0.14.14",
 ]
+
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+extend-exclude = [
+  "*/migrations/*",
+  "task_manager/settings.py",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = ["E501"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
