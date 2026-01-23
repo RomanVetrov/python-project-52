@@ -15,19 +15,8 @@ dependencies = [
 ]
 
 
-[tool.ruff]
-line-length = 88
-target-version = "py312"
-extend-exclude = [
-  "*/migrations/*",
-  "task_manager/settings.py",
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.14.14",
 ]
-
-[tool.ruff.lint]
-select = ["E", "F", "I"]
-ignore = ["E501"]
-
-[tool.ruff.format]
-quote-style = "double"
-indent-style = "space"
 
