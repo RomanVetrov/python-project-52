@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <h1 class="mb-4">{{ task.name }}</h1>
+
+  <div class="mb-3">
+    <strong>{% trans "Status" %}:</strong> {{ task.status.name }}
+  </div>
+
+  <div class="mb-3">
+    <strong>{% trans "Author" %}:</strong> {{ task.author.username }}
+  </div>
+
+  <div class="mb-3">
+    <strong>{% trans "Executor" %}:</strong>
+    {% if task.executor %}{{ task.executor.username }}{% else %}-{% endif %}
+  </div>
+
+  <div class="mb-3">
+    <strong>{% trans "Created at" %}:</strong> {{ task.created_at }}
+  </div>
+
+  <div class="mb-4">
+    <strong>{% trans "Description" %}:</strong><br>
+    {{ task.description|linebreaksbr }}
+  </div>
+
+  <a class="btn btn-outline-secondary" href="{% url 'tasks:update' task.id %}">{% trans "Edit" %}</a>
+  <a class="btn btn-outline-danger" href="{% url 'tasks:delete' task.id %}">{% trans "Delete" %}</a>
+{% endblock %}

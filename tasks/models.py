@@ -7,16 +7,16 @@ from statuses.models import Status
 class Task(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
-    status = models.ForeignKey(Status, on_delete=models.PROTECT, related_name='tasks')
+    status = models.ForeignKey(Status, on_delete=models.PROTECT, related_name="tasks")
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT,
-        related_name='authored_tasks',
+        related_name="authored_tasks",
     )
     executor = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT,
-        related_name='executed_tasks',
+        related_name="executed_tasks",
         null=True,
         blank=True,
     )
@@ -24,4 +24,3 @@ class Task(models.Model):
 
     def __str__(self):
         return self.name
-

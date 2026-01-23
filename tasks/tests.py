@@ -1,3 +1,75 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
+from django.urls import reverse
 
-# Create your tests here.
+from statuses.models import Status
+from tasks.models import Task
+
+
+class TasksCrudTests(TestCase):
+    fixtures = ["users.json"]
+
+    def setUp(self):
+        self.user1 = User.objects.get(username="user1")
+        self.user2 = User.objects.get(username="user2")
+        self.status = Status.objects.create(name="новый")
+        self.task = Task.objects.create(
+            name="Task 1",
+            description="Desc",
+            status=self.status,
+            author=self.user1,
+            executor=self.user2,
+        )
+
+    def test_guest_redirects_with_message(self):
+        response = self.client.get(reverse("tasks:list"), follow=True)
+        self.assertContains(response, "Вы не авторизованы! Пожалуйста, выполните вход.")
+        self.assertEqual(response.resolver_match.view_name, "login")
+
+    def test_create_task(self):
+        self.client.login(username="user1", password="pass12345")
+        response = self.client.post(
+            reverse("tasks:create"),
+            data={
+                "name": "New task",
+                "description": "Hello",
+                "status": self.status.id,
+                "executor": self.user2.id,
+            },
+        )
+        self.assertRedirects(response, reverse("tasks:list"))
+        self.assertTrue(
+            Task.objects.filter(name="New task", author=self.user1).exists()
+        )
+
+    def test_update_task(self):
+        self.client.login(username="user1", password="pass12345")
+        response = self.client.post(
+            reverse("tasks:update", args=[self.task.id]),
+            data={
+                "name": "Task 1 updated",
+                "description": self.task.description,
+                "status": self.status.id,
+                "executor": self.user2.id,
+            },
+        )
+        self.assertRedirects(response, reverse("tasks:list"))
+        self.task.refresh_from_db()
+        self.assertEqual(self.task.name, "Task 1 updated")
+
+    def test_detail_task(self):
+        self.client.login(username="user1", password="pass12345")
+        response = self.client.get(reverse("tasks:detail", args=[self.task.id]))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Task 1")
+
+
+def test_only_author_can_delete_task(self):
+    self.client.force_login(self.user2)  # <-- вместо login по паролю
+
+    response = self.client.post(
+        reverse("tasks:delete", args=[self.task.id]), follow=True
+    )
+
+    self.assertTrue(Task.objects.filter(id=self.task.id).exists())  # НЕ удалилось
+    self.assertContains(response, "Только автор задачи может удалить её")
