@@ -15,12 +15,14 @@ from .forms import SignupForm, UserUpdateForm
 
 
 class UserListView(ListView):
+    """Публичный список пользователей."""
     model = User
     template_name = "users/list.html"
     context_object_name = "users"
 
 
 class UserCreateView(CreateView):
+    """Регистрация нового пользователя."""
     model = User
     form_class = SignupForm
     template_name = "users/create.html"
@@ -28,6 +30,7 @@ class UserCreateView(CreateView):
 
 
 class OnlySelfMixin(UserPassesTestMixin):
+    """Разрешает правку и удаление только владельцу аккаунта."""
     def test_func(self):
         return (
             self.request.user.is_authenticated
@@ -42,6 +45,7 @@ class OnlySelfMixin(UserPassesTestMixin):
 
 
 class UserUpdateView(OnlySelfMixin, UpdateView):
+    """Редактирование собственного профиля."""
     model = User
     form_class = UserUpdateForm
     template_name = "users/update.html"
@@ -53,6 +57,7 @@ class UserUpdateView(OnlySelfMixin, UpdateView):
 
 
 class UserDeleteView(OnlySelfMixin, DeleteView):
+    """Удаление собственного аккаунта; блокируется, если есть связанные задачи."""
     model = User
     template_name = "users/delete.html"
     success_url = reverse_lazy("users:list")
@@ -72,6 +77,7 @@ class UserDeleteView(OnlySelfMixin, DeleteView):
 
 
 class UserLoginView(LoginView):
+    """Форма входа с редиректом на главную после успеха."""
     template_name = "users/login.html"
 
     def form_valid(self, form):
@@ -84,6 +90,7 @@ class UserLoginView(LoginView):
 
 
 class UserLogoutView(View):
+    """Выход из аккаунта допускает только POST-запросы."""
     def post(self, request, *args, **kwargs):
         logout(request)
         messages.info(request, _("Вы разлогинены"))

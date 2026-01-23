@@ -91,6 +91,7 @@ WSGI_APPLICATION = 'task_manager.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
+    # По умолчанию используем SQLite, а в продакшене берём URL из окружения (PostgreSQL на Render)
     "default": dj_database_url.config(
         default=os.getenv("DATABASE_URL", "sqlite:///db.sqlite3"),
         conn_max_age=600,

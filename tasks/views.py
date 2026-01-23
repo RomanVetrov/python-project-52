@@ -12,18 +12,21 @@ from .models import Task
 
 
 class TaskListView(LoginRequiredMessageMixin, ListView):
+    """Список задач; виден только авторизованным пользователям."""
     model = Task
     template_name = "tasks/list.html"
     context_object_name = "tasks"
 
 
 class TaskDetailView(LoginRequiredMessageMixin, DetailView):
+    """Карточка задачи с подробностями."""
     model = Task
     template_name = "tasks/detail.html"
     context_object_name = "task"
 
 
 class TaskCreateView(LoginRequiredMessageMixin, CreateView):
+    """Создание задачи; автор проставляется автоматически."""
     model = Task
     form_class = TaskForm
     template_name = "tasks/create.html"
@@ -36,6 +39,7 @@ class TaskCreateView(LoginRequiredMessageMixin, CreateView):
 
 
 class TaskUpdateView(LoginRequiredMessageMixin, UpdateView):
+    """Редактирование задачи."""
     model = Task
     form_class = TaskForm
     template_name = "tasks/update.html"
@@ -47,6 +51,7 @@ class TaskUpdateView(LoginRequiredMessageMixin, UpdateView):
 
 
 class OnlyAuthorDeleteMixin(UserPassesTestMixin):
+    """Миксин разрешает удаление задачи только её автору."""
     def test_func(self):
         return self.get_object().author_id == self.request.user.id
 
@@ -56,6 +61,7 @@ class OnlyAuthorDeleteMixin(UserPassesTestMixin):
 
 
 class TaskDeleteView(LoginRequiredMessageMixin, OnlyAuthorDeleteMixin, DeleteView):
+    """Удаление задачи; авторизация и проверка авторства обязательны."""
     model = Task
     template_name = "tasks/delete.html"
     success_url = reverse_lazy("tasks:list")
