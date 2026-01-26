@@ -21,8 +21,9 @@ dev = [
 ]
 
 [build-system]
-requires = ["setuptools>=65", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.setuptools]
+[tool.hatch.build.targets.wheel]
 packages = ["task_manager", "core", "users", "statuses", "tasks", "labels"]
+
