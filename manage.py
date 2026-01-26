@@ -3,10 +3,22 @@
 
 import os
 import sys
+from pathlib import Path
+
+
+def _ensure_venv_on_path():
+    """Добавляет site-packages из локального .venv, если он есть (для CI/compose)."""
+    venv_dir = Path(__file__).resolve().parent.parent / ".venv"
+    site_packages = list(venv_dir.glob("lib/python*/site-packages"))
+    if site_packages:
+        sp = str(site_packages[0])
+        if sp not in sys.path:
+            sys.path.insert(0, sp)
 
 
 def main():
     """Run administrative tasks."""
+    _ensure_venv_on_path()
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "task_manager.settings")
     try:
         from django.core.management import execute_from_command_line

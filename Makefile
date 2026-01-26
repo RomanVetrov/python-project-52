@@ -27,7 +27,7 @@ start-server:
 lint:
 	uv run ruff check .
 
-# format: автоформат роуффом
+# format: автоформат руфом
 format:
 	uv run ruff format .
 

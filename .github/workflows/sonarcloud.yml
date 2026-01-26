@@ -27,12 +27,12 @@ jobs:
           pip install uv
 
       - name: Install dependencies
-        run: uv sync --frozen
+        run: uv sync
 
       - name: Run tests with coverage
         run: |
-          UV_CACHE_DIR=/tmp/uv-cache uvx coverage run manage.py test
-          UV_CACHE_DIR=/tmp/uv-cache uvx coverage xml
+          UV_CACHE_DIR=/tmp/uv-cache uv run coverage run manage.py test
+          UV_CACHE_DIR=/tmp/uv-cache uv run coverage xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
