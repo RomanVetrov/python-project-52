@@ -14,3 +14,7 @@ db.sqlite3
 
 # django
 staticfiles/
+
+
+
+.python-version
