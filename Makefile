@@ -20,8 +20,7 @@ render-start:
 
 # start-server: локальный сервер для CI в контейнере (через uv)
 start-server:
-	uv sync --frozen
-	UV_CACHE_DIR=/tmp/uv-cache uv run python manage.py runserver 0.0.0.0:3000
+	UV_CACHE_DIR=/tmp/uv-cache uv run manage.py runserver 0.0.0.0:3000
 
 # lint: проверяем код стилем ruff
 lint:
