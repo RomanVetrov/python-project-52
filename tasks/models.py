@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from statuses.models import Status
+from labels.models import Label
 
 
 class Task(models.Model):
@@ -27,6 +28,12 @@ class Task(models.Model):
         null=True,
         blank=True,
         verbose_name=_("Executor"),
+    )
+    labels = models.ManyToManyField(
+        Label,
+        related_name="tasks",
+        blank=True,
+        verbose_name=_("Labels"),
     )
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
 

@@ -3,6 +3,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from statuses.models import Status
+from labels.models import Label
 from tasks.models import Task
 
 
@@ -13,6 +14,7 @@ class TasksCrudTests(TestCase):
         self.user1 = User.objects.get(username="user1")
         self.user2 = User.objects.get(username="user2")
         self.status = Status.objects.create(name="новый")
+        self.label = Label.objects.create(name="bug")
         self.task = Task.objects.create(
             name="Task 1",
             description="Desc",
@@ -20,6 +22,7 @@ class TasksCrudTests(TestCase):
             author=self.user1,
             executor=self.user2,
         )
+        self.task.labels.add(self.label)
 
     def test_guest_redirects_with_message(self):
         response = self.client.get(reverse("tasks:list"), follow=True)
@@ -35,12 +38,12 @@ class TasksCrudTests(TestCase):
                 "description": "Hello",
                 "status": self.status.id,
                 "executor": self.user2.id,
+                "labels": [self.label.id],
             },
         )
         self.assertRedirects(response, reverse("tasks:list"))
-        self.assertTrue(
-            Task.objects.filter(name="New task", author=self.user1).exists()
-        )
+        created = Task.objects.get(name="New task", author=self.user1)
+        self.assertIn(self.label, created.labels.all())
 
     def test_update_task(self):
         self.client.login(username="user1", password="pass12345")
@@ -51,6 +54,7 @@ class TasksCrudTests(TestCase):
                 "description": self.task.description,
                 "status": self.status.id,
                 "executor": self.user2.id,
+                "labels": [self.label.id],
             },
         )
         self.assertRedirects(response, reverse("tasks:list"))
@@ -62,6 +66,7 @@ class TasksCrudTests(TestCase):
         response = self.client.get(reverse("tasks:detail", args=[self.task.id]))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Task 1")
+        self.assertContains(response, "bug")
 
     def test_only_author_can_delete_task(self):
         self.client.force_login(self.user2)  # <-- вместо login по паролю

@@ -15,6 +15,7 @@
         <th>{% trans "Status" %}</th>
         <th>{% trans "Author" %}</th>
         <th>{% trans "Executor" %}</th>
+        <th>{% trans "Labels" %}</th>
         <th>{% trans "Created at" %}</th>
         <th></th>
       </tr>
@@ -27,6 +28,11 @@
           <td>{{ t.status.name }}</td>
           <td>{{ t.author.username }}</td>
           <td>{% if t.executor %}{{ t.executor.username }}{% endif %}</td>
+          <td>
+            {% if t.labels.all %}
+              {{ t.labels.all|join:", " }}
+            {% endif %}
+          </td>
           <td>{{ t.created_at }}</td>
           <td>
             <a href="{% url 'tasks:update' t.id %}">{% trans "Edit" %}</a>

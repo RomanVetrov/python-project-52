@@ -18,6 +18,15 @@
   </div>
 
   <div class="mb-3">
+    <strong>{% trans "Labels" %}:</strong>
+    {% if task.labels.all %}
+      {{ task.labels.all|join:", " }}
+    {% else %}
+      -
+    {% endif %}
+  </div>
+
+  <div class="mb-3">
     <strong>{% trans "Created at" %}:</strong> {{ task.created_at }}
   </div>
 
