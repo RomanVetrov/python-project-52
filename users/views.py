@@ -13,8 +13,6 @@ from django.utils.translation import gettext_lazy as _
 
 from .forms import SignupForm, UserUpdateForm
 
-USERS_LIST_URL = "users:list"
-
 
 class UserListView(ListView):
     """Публичный список пользователей."""
@@ -51,7 +49,7 @@ class UserUpdateView(OnlySelfMixin, UpdateView):
     model = User
     form_class = UserUpdateForm
     template_name = "users/update.html"
-    success_url = reverse_lazy(USERS_LIST_URL)  # после изменения на список пользователей
+    success_url = reverse_lazy("users:list")  # после изменения на список пользователей
 
     def form_valid(self, form):
         messages.success(self.request, _("Пользователь успешно изменён"))
@@ -62,7 +60,7 @@ class UserDeleteView(OnlySelfMixin, DeleteView):
     """Удаление собственного аккаунта; блокируется, если есть связанные задачи."""
     model = User
     template_name = "users/delete.html"
-    success_url = reverse_lazy(USERS_LIST_URL)
+    success_url = reverse_lazy("users:list")
 
     def form_valid(self, form):
         try:
