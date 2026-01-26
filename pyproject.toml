@@ -22,6 +22,8 @@ dev = [
 ]
 
 
+[tool.hatch.build.targets.wheel]
+packages = ["task_manager", "core", "users", "statuses", "tasks", "labels"]
 
 [build-system]
 requires = ["hatchling"]
