@@ -26,8 +26,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install uv
 
-      - name: Install dependencies (with dev extras for coverage)
-        run: uv sync --extra dev --frozen
+      - name: Install dependencies
+        run: uv sync --frozen
+
+      - name: Install coverage (dev dependency)
+        run: UV_CACHE_DIR=/tmp/uv-cache uv run python -m pip install coverage
 
       - name: Run tests with coverage
         run: |
