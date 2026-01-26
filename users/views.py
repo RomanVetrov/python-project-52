@@ -78,7 +78,7 @@ class UserDeleteView(OnlySelfMixin, DeleteView):
             )
             return redirect("users:list")
 
-        messages.success(self.request, _("Пользователь успешно удалён"))
+        messages.success(self.request, _("Пользователь успешно удален"))
         return response
 
 
