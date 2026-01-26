@@ -4,11 +4,11 @@ install:
 
 # migrate: применяем миграции в текущей БД
 migrate:
-	uv run python manage.py migrate
+	uv run manage.py migrate
 
 # collectstatic: собираем статику для продакшена
 collectstatic:
-	uv run python manage.py collectstatic --noinput
+	uv run manage.py collectstatic --noinput
 
 # build: шаг сборки на Render (устанавливает uv, deps, static, миграции)
 build:
