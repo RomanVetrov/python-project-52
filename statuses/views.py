@@ -57,7 +57,7 @@ class StatusDeleteView(LoginRequiredMessageMixin, DeleteView):
                 self.request,
                 _("Невозможно удалить статус, потому что он используется"),
             )
-            return self.render_to_response(self.get_context_data())
+            return redirect(STATUSES_LIST_URL)
 
         messages.success(self.request, _("Статус успешно удален"))
         return response
