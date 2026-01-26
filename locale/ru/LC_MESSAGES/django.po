@@ -37,6 +37,9 @@ msgstr "Выход"
 msgid "Login"
 msgstr "Вход"
 
+msgid "Log in"
+msgstr "Войти"
+
 #: core/templates/base.html:41 users/templates/users/create.html:6
 msgid "Sign up"
 msgstr "Регистрация"
