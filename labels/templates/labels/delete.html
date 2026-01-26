@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <h1 class="mb-4">{% trans "Delete label" %}</h1>
+  <p>{% trans "Are you sure?" %}</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">{% trans "Yes, delete" %}</button>
+  </form>
+{% endblock %}

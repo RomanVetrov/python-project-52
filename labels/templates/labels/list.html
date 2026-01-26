@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">{% trans "Labels" %}</h1>
+    <a class="btn btn-primary" href="{% url 'labels:create' %}">{% trans "Create label" %}</a>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>{% trans "Name" %}</th>
+        <th>{% trans "Created at" %}</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for l in labels %}
+        <tr>
+          <td>{{ l.id }}</td>
+          <td>{{ l.name }}</td>
+          <td>{{ l.created_at }}</td>
+          <td>
+            <a href="{% url 'labels:update' l.id %}">{% trans "Edit" %}</a>
+            |
+            <a href="{% url 'labels:delete' l.id %}">{% trans "Delete" %}</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4">{% trans "No labels yet." %}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

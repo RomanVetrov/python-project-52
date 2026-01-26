@@ -234,3 +234,40 @@ msgstr "Привет из таск менеджера!"
 #: users/views.py:56
 msgid "Невозможно удалить пользователя, потому что он используется"
 msgstr "Невозможно удалить пользователя, потому что он используется"
+
+#: core/templates/base.html:25 labels/templates/labels/list.html:5
+#: tasks/templates/tasks/detail.html:18 tasks/templates/tasks/list.html:18
+msgid "Labels"
+msgstr "Метки"
+
+#: labels/templates/labels/list.html:6 labels/templates/labels/create.html:6
+msgid "Create label"
+msgstr "Создать метку"
+
+#: labels/templates/labels/update.html:6
+msgid "Update label"
+msgstr "Изменить метку"
+
+#: labels/templates/labels/delete.html:5
+msgid "Delete label"
+msgstr "Удаление метки"
+
+#: labels/templates/labels/list.html:32
+msgid "No labels yet."
+msgstr "Меток пока нет."
+
+#: labels/views.py:21
+msgid "Метка успешно создана"
+msgstr "Метка успешно создана"
+
+#: labels/views.py:32
+msgid "Метка успешно изменена"
+msgstr "Метка успешно изменена"
+
+#: labels/views.py:46
+msgid "Невозможно удалить метку, потому что она используется"
+msgstr "Невозможно удалить метку, потому что она используется"
+
+#: labels/views.py:51
+msgid "Метка успешно удалена"
+msgstr "Метка успешно удалена"
