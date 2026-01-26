@@ -158,6 +158,10 @@ msgstr "Задач пока нет."
 msgid "Register"
 msgstr "Зарегистрировать"
 
+#: users/views.py:28
+msgid "Пользователь успешно зарегистрирован"
+msgstr "Пользователь успешно зарегистрирован"
+
 #: users/templates/users/delete.html:5
 msgid "Delete user"
 msgstr "Удаление пользователя"

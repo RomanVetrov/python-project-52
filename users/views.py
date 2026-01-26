@@ -30,6 +30,10 @@ class UserCreateView(CreateView):
     template_name = "users/create.html"
     success_url = reverse_lazy("login")  # после регистрации на страницу входа
 
+    def form_valid(self, form):
+        messages.success(self.request, _("Пользователь успешно зарегистрирован"))
+        return super().form_valid(form)
+
 
 class OnlySelfMixin(UserPassesTestMixin):
     """Разрешает правку и удаление только владельцу аккаунта."""
