@@ -156,7 +156,7 @@ msgstr "Задач пока нет."
 
 #: users/templates/users/create.html:11
 msgid "Register"
-msgstr "Зарегистрироваться"
+msgstr "Зарегистрировать"
 
 #: users/templates/users/delete.html:5
 msgid "Delete user"
