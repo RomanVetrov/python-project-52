@@ -14,7 +14,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Полная история нужна SonarCloud
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -29,13 +29,10 @@ jobs:
       - name: Install dependencies
         run: uv sync --frozen
 
-      - name: Install coverage (dev dependency)
-        run: UV_CACHE_DIR=/tmp/uv-cache uv run python -m pip install coverage
-
       - name: Run tests with coverage
         run: |
-          UV_CACHE_DIR=/tmp/uv-cache uv run coverage run manage.py test
-          UV_CACHE_DIR=/tmp/uv-cache uv run coverage xml
+          UV_CACHE_DIR=/tmp/uv-cache uvx coverage run manage.py test
+          UV_CACHE_DIR=/tmp/uv-cache uvx coverage xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master

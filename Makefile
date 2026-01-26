@@ -18,6 +18,11 @@ build:
 render-start:
 	@PORT=$${PORT:-8000}; uv run gunicorn task_manager.wsgi:application --bind 0.0.0.0:$$PORT
 
+# start-server: локальный сервер для CI в контейнере (через uv)
+start-server:
+	uv sync --frozen
+	UV_CACHE_DIR=/tmp/uv-cache uv run python manage.py runserver 0.0.0.0:3000
+
 # lint: проверяем код стилем ruff
 lint:
 	uv run ruff check .
@@ -31,5 +36,3 @@ fix:
 	uv run ruff check . --fix
 
 check: lint
-
-
