@@ -18,6 +18,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+# from .views import test_rollbar
+
 from users.views import UserLoginView, UserLogoutView
 
 urlpatterns = [
@@ -29,4 +31,5 @@ urlpatterns = [
     path("statuses/", include("statuses.urls")),
     path("tasks/", include("tasks.urls")),
     path("labels/", include("labels.urls")),
+    # path('test-rollbar/', test_rollbar, name='test_rollbar'),
 ]

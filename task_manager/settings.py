@@ -15,10 +15,11 @@ import dj_database_url
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 
 # Quick-start development settings - unsuitable for production
@@ -66,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
 ]
 
 ROOT_URLCONF = 'task_manager.urls'
@@ -141,3 +143,18 @@ LOGIN_URL = '/login/'
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+
+
+# === ROLLBAR CONFIGURATION ===
+ROLLBAR = {
+    'access_token': os.getenv('ROLLBAR_ACCESS_TOKEN'),
+    'environment': os.getenv('ROLLBAR_ENVIRONMENT', 'development'),
+    'code_version': '1.0.0',
+    'root': BASE_DIR,
+}
+
+# Инициализация Rollbar (только если токен задан)
+if ROLLBAR['access_token']:
+    import rollbar
+    rollbar.init(**ROLLBAR)
