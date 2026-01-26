@@ -8,6 +8,18 @@ from .models import Task
 
 
 class TaskForm(forms.ModelForm):
+    executor = forms.ModelChoiceField(
+        queryset=User.objects.all(),
+        required=False,
+        label=_("Executor"),
+        widget=forms.Select(attrs={"class": "form-select"}),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Показываем ФИО в выпадающем списке исполнителей
+        self.fields["executor"].label_from_instance = lambda u: f"{u.first_name} {u.last_name}".strip() or u.username
+
     class Meta:
         model = Task
         fields = ("name", "description", "status", "executor", "labels")
@@ -37,3 +49,7 @@ class TaskFilterForm(forms.Form):
         label=_("Only my tasks"),
         widget=forms.CheckboxInput(attrs={"class": "form-check-input"}),
     )  # фильтр по автору
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["executor"].label_from_instance = lambda u: f"{u.first_name} {u.last_name}".strip() or u.username
