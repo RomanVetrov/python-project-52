@@ -74,7 +74,11 @@ msgstr "Создать"
 #: tasks/templates/tasks/update.html:11
 #: users/templates/users/update.html:11
 msgid "Update"
-msgstr "Обновить"
+msgstr "Изменить"
+
+#: users/templates/users/update.html:11
+msgid "Change"
+msgstr "Изменить"
 
 #: statuses/templates/statuses/delete.html:6
 #: tasks/templates/tasks/delete.html:6
