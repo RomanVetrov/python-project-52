@@ -10,6 +10,8 @@ from core.mixins import LoginRequiredMessageMixin
 from .forms import TaskForm, TaskFilterForm
 from .models import Task
 
+TASKS_LIST_URL = "tasks:list"
+
 
 class TaskListView(LoginRequiredMessageMixin, ListView):
     """Список задач; виден только авторизованным пользователям."""
@@ -56,7 +58,7 @@ class TaskCreateView(LoginRequiredMessageMixin, CreateView):
     model = Task
     form_class = TaskForm
     template_name = "tasks/create.html"
-    success_url = reverse_lazy("tasks:list")
+    success_url = reverse_lazy(TASKS_LIST_URL)
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -69,7 +71,7 @@ class TaskUpdateView(LoginRequiredMessageMixin, UpdateView):
     model = Task
     form_class = TaskForm
     template_name = "tasks/update.html"
-    success_url = reverse_lazy("tasks:list")
+    success_url = reverse_lazy(TASKS_LIST_URL)
 
     def form_valid(self, form):
         messages.success(self.request, _("Задача успешно изменена"))
@@ -90,7 +92,7 @@ class TaskDeleteView(LoginRequiredMessageMixin, OnlyAuthorDeleteMixin, DeleteVie
     """Удаление задачи; авторизация и проверка авторства обязательны."""
     model = Task
     template_name = "tasks/delete.html"
-    success_url = reverse_lazy("tasks:list")
+    success_url = reverse_lazy(TASKS_LIST_URL)
 
     def handle_no_permission(self):
         if not self.request.user.is_authenticated:

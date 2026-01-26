@@ -8,6 +8,8 @@ from core.mixins import LoginRequiredMessageMixin
 from .forms import LabelForm
 from .models import Label
 
+LABELS_LIST_URL = "labels:list"
+
 
 class LabelListView(LoginRequiredMessageMixin, ListView):
     """Список меток."""
@@ -21,7 +23,7 @@ class LabelCreateView(LoginRequiredMessageMixin, CreateView):
     model = Label
     form_class = LabelForm
     template_name = "labels/create.html"
-    success_url = reverse_lazy("labels:list")
+    success_url = reverse_lazy(LABELS_LIST_URL)
 
     def form_valid(self, form):
         messages.success(self.request, _("Метка успешно создана"))
@@ -33,7 +35,7 @@ class LabelUpdateView(LoginRequiredMessageMixin, UpdateView):
     model = Label
     form_class = LabelForm
     template_name = "labels/update.html"
-    success_url = reverse_lazy("labels:list")
+    success_url = reverse_lazy(LABELS_LIST_URL)
 
     def form_valid(self, form):
         messages.success(self.request, _("Метка успешно изменена"))
@@ -44,7 +46,7 @@ class LabelDeleteView(LoginRequiredMessageMixin, DeleteView):
     """Удаление метки; блокируем, если она используется задачами."""
     model = Label
     template_name = "labels/delete.html"
-    success_url = reverse_lazy("labels:list")
+    success_url = reverse_lazy(LABELS_LIST_URL)
 
     def form_valid(self, form):
         if self.get_object().tasks.exists():

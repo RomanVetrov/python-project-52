@@ -1,4 +1,5 @@
 ![Hexlet Check](https://github.com/RomanVetrov/python-project-52/actions/workflows/hexlet-check.yml/badge.svg)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=RomanVetrov_python-project-52&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=RomanVetrov_python-project-52)
 ![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue)
 ![Django 6](https://img.shields.io/badge/django-6.0-0C4B33?logo=django&logoColor=white)
 ![django-bootstrap5](https://img.shields.io/badge/django--bootstrap5-enabled-7952B3?logo=bootstrap&logoColor=white)

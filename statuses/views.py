@@ -9,6 +9,8 @@ from core.mixins import LoginRequiredMessageMixin
 from .forms import StatusForm
 from .models import Status
 
+STATUSES_LIST_URL = "statuses:list"
+
 
 class StatusListView(LoginRequiredMessageMixin, ListView):
     """Список статусов; доступен только авторизованным."""
@@ -22,7 +24,7 @@ class StatusCreateView(LoginRequiredMessageMixin, CreateView):
     model = Status
     form_class = StatusForm
     template_name = "statuses/create.html"
-    success_url = reverse_lazy("statuses:list")
+    success_url = reverse_lazy(STATUSES_LIST_URL)
 
     def form_valid(self, form):
         messages.success(self.request, _("Статус успешно создан"))
@@ -34,7 +36,7 @@ class StatusUpdateView(LoginRequiredMessageMixin, UpdateView):
     model = Status
     form_class = StatusForm
     template_name = "statuses/update.html"
-    success_url = reverse_lazy("statuses:list")
+    success_url = reverse_lazy(STATUSES_LIST_URL)
 
     def form_valid(self, form):
         messages.success(self.request, _("Статус успешно изменён"))
@@ -45,7 +47,7 @@ class StatusDeleteView(LoginRequiredMessageMixin, DeleteView):
     """Удаление статуса с проверкой на использование в задачах."""
     model = Status
     template_name = "statuses/delete.html"
-    success_url = reverse_lazy("statuses:list")
+    success_url = reverse_lazy(STATUSES_LIST_URL)
 
     def form_valid(self, form):
         try:
