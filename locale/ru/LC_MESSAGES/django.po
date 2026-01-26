@@ -271,3 +271,15 @@ msgstr "Невозможно удалить метку, потому что он
 #: labels/views.py:51
 msgid "Метка успешно удалена"
 msgstr "Метка успешно удалена"
+
+#: tasks/forms.py:34 tasks/templates/tasks/list.html:19
+msgid "Label"
+msgstr "Метка"
+
+#: tasks/forms.py:44 tasks/templates/tasks/list.html:27
+msgid "Only my tasks"
+msgstr "Только свои задачи"
+
+#: tasks/templates/tasks/list.html:32
+msgid "Show"
+msgstr "Показать"

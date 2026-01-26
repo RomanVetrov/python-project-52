@@ -7,6 +7,30 @@
     <a class="btn btn-primary" href="{% url 'tasks:create' %}">{% trans "Create task" %}</a>
   </div>
 
+  <form method="get" class="row g-3 mb-4">
+    <div class="col-md-3">
+      <label class="form-label" for="id_status">{% trans "Status" %}</label>
+      {{ filter_form.status }}
+    </div>
+    <div class="col-md-3">
+      <label class="form-label" for="id_executor">{% trans "Executor" %}</label>
+      {{ filter_form.executor }}
+    </div>
+    <div class="col-md-3">
+      <label class="form-label" for="id_labels">{% trans "Label" %}</label>
+      {{ filter_form.labels }}
+    </div>
+    <div class="col-md-3 d-flex align-items-end">
+      <div class="form-check">
+        {{ filter_form.self_tasks }}
+        <label class="form-check-label" for="id_self_tasks">{% trans "Only my tasks" %}</label>
+      </div>
+    </div>
+    <div class="col-12">
+      <button type="submit" class="btn btn-outline-primary">{% trans "Show" %}</button>
+    </div>
+  </form>
+
   <table class="table table-striped">
     <thead>
       <tr>

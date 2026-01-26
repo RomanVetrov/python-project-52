@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 
 from core.mixins import LoginRequiredMessageMixin
 
-from .forms import TaskForm
+from .forms import TaskForm, TaskFilterForm
 from .models import Task
 
 
@@ -16,6 +16,32 @@ class TaskListView(LoginRequiredMessageMixin, ListView):
     model = Task
     template_name = "tasks/list.html"
     context_object_name = "tasks"
+
+    def get_queryset(self):
+        queryset = (
+            super()
+            .get_queryset()
+            .select_related("status", "author", "executor")
+            .prefetch_related("labels")
+        )
+
+        form = TaskFilterForm(self.request.GET or None)
+        if form.is_valid():
+            if form.cleaned_data.get("status"):
+                queryset = queryset.filter(status=form.cleaned_data["status"])
+            if form.cleaned_data.get("executor"):
+                queryset = queryset.filter(executor=form.cleaned_data["executor"])
+            if form.cleaned_data.get("labels"):
+                queryset = queryset.filter(labels=form.cleaned_data["labels"])
+            if form.cleaned_data.get("self_tasks"):
+                queryset = queryset.filter(author=self.request.user)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["filter_form"] = TaskFilterForm(self.request.GET or None)
+        return context
 
 
 class TaskDetailView(LoginRequiredMessageMixin, DetailView):
