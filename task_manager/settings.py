@@ -59,6 +59,8 @@ INSTALLED_APPS = [
     "labels",
 ]
 
+TESTING = "test" in sys.argv
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -68,7 +70,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "rollbar.contrib.django.middleware.RollbarNotifierMiddleware",
 ]
 
 ROOT_URLCONF = "task_manager.urls"
@@ -153,8 +154,10 @@ ROLLBAR = {
     "root": BASE_DIR,
 }
 
-# Инициализация Rollbar (только если токен задан и это не тесты)
-if ROLLBAR["access_token"] and "test" not in sys.argv:
+# Подключаем middleware и инициализируем Rollbar только вне тестов
+if ROLLBAR["access_token"] and not TESTING:
+    MIDDLEWARE.append("rollbar.contrib.django.middleware.RollbarNotifierMiddleware")
+
     import rollbar
 
     rollbar.init(**ROLLBAR)
