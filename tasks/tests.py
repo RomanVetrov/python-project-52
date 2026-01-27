@@ -126,7 +126,7 @@ class TasksCrudTests(TestCase):
         self.assertTrue(
             Task.objects.filter(id=self.task.id).exists()
         )  # НЕ удалилось
-        self.assertContains(response, "Только автор задачи может удалить её")
+        self.assertContains(response, "Задачу может удалить только ее автор")
 
     def test_author_can_delete_task(self):
         self.client.force_login(self.user1)
