@@ -84,7 +84,7 @@ class OnlyAuthorDeleteMixin(UserPassesTestMixin):
         return self.get_object().author_id == self.request.user.id
 
     def handle_no_permission(self):
-        messages.error(self.request, _("Только автор задачи может удалить её"))
+        messages.error(self.request, _("Задачу может удалить только ее автор"))
         return redirect(reverse_lazy("tasks:list"))
 
 
@@ -98,7 +98,7 @@ class TaskDeleteView(LoginRequiredMessageMixin, OnlyAuthorDeleteMixin, DeleteVie
         if not self.request.user.is_authenticated:
             return LoginRequiredMessageMixin.handle_no_permission(self)
 
-        messages.error(self.request, _("Только автор задачи может удалить её"))
+        messages.error(self.request, _("Задачу может удалить только ее автор"))
         return redirect(reverse_lazy("tasks:list"))
 
     def form_valid(self, form):
