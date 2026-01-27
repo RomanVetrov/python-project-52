@@ -1,0 +1,42 @@
+name: SonarCloud
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  sonarcloud:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Install dependencies
+        run: uv sync --extra dev
+
+      - name: Run tests with coverage
+        run: |
+          UV_CACHE_DIR=/tmp/uv-cache uvx coverage run manage.py test
+          UV_CACHE_DIR=/tmp/uv-cache uvx coverage xml
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=RomanVetrov_python-project-83
+            -Dsonar.organization=romanvetrov
+            -Dsonar.sources=.
+            -Dsonar.python.version=3.12
+            -Dsonar.exclusions=**/migrations/**
+            -Dsonar.python.coverage.reportPaths=coverage.xml

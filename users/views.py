@@ -84,7 +84,9 @@ class UserDeleteView(OnlySelfMixin, DeleteView):
         except ProtectedError:
             messages.error(
                 self.request,
-                _("Невозможно удалить пользователя, потому что он используется"),
+                _(
+                    "Невозможно удалить пользователя, потому что он используется"
+                ),
             )
             return redirect(USERS_LIST_URL)
 

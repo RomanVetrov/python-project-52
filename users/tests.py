@@ -99,5 +99,6 @@ class UsersCrudTests(TestCase):
 
         self.assertTrue(User.objects.filter(id=user.id).exists())
         self.assertContains(
-            response, "Невозможно удалить пользователя, потому что он используется"
+            response,
+            "Невозможно удалить пользователя, потому что он используется",
         )
