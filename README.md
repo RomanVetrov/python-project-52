@@ -15,7 +15,7 @@
 
 # Task Manager
 
-Учебный таск-менеджер на Django с поддержкой i18n (en/ru), аутентификацией и CRUD для пользователей, статусов, задач и меток.
+Task-Manager на Django с поддержкой i18n (en/ru), аутентификацией и CRUD для пользователей, статусов, задач и меток.
 
 - Демо: https://python-project-52-1tyu.onrender.com
 - Требования: Python 3.12+, [uv](https://github.com/astral-sh/uv)
