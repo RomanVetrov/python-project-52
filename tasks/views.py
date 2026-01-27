@@ -39,7 +39,9 @@ class TaskListView(LoginRequiredMessageMixin, ListView):
             if form.cleaned_data.get("status"):
                 queryset = queryset.filter(status=form.cleaned_data["status"])
             if form.cleaned_data.get("executor"):
-                queryset = queryset.filter(executor=form.cleaned_data["executor"])
+                queryset = queryset.filter(
+                    executor=form.cleaned_data["executor"]
+                )
             if form.cleaned_data.get("labels"):
                 queryset = queryset.filter(labels=form.cleaned_data["labels"])
             if form.cleaned_data.get("self_tasks"):
@@ -96,10 +98,14 @@ class OnlyAuthorDeleteMixin(UserPassesTestMixin):
 
     def handle_no_permission(self):
         messages.error(self.request, _("Задачу может удалить только ее автор"))
-        return redirect(reverse_lazy("tasks:list"))
+        return redirect(reverse_lazy(TASKS_LIST_URL))
 
 
-class TaskDeleteView(LoginRequiredMessageMixin, OnlyAuthorDeleteMixin, DeleteView):
+class TaskDeleteView(
+    LoginRequiredMessageMixin,
+    OnlyAuthorDeleteMixin,
+    DeleteView,
+):
     """Удаление задачи; авторизация и проверка авторства обязательны."""
 
     model = Task
@@ -111,7 +117,7 @@ class TaskDeleteView(LoginRequiredMessageMixin, OnlyAuthorDeleteMixin, DeleteVie
             return LoginRequiredMessageMixin.handle_no_permission(self)
 
         messages.error(self.request, _("Задачу может удалить только ее автор"))
-        return redirect(reverse_lazy("tasks:list"))
+        return redirect(reverse_lazy(TASKS_LIST_URL))
 
     def form_valid(self, form):
         messages.success(self.request, _("Задача успешно удалена"))

@@ -39,7 +39,9 @@ class StatusesCrudTests(TestCase):
 
     def test_delete_status(self):
         self.client.login(username="user1", password="pass12345")
-        response = self.client.post(reverse("statuses:delete", args=[self.status.id]))
+        response = self.client.post(
+            reverse("statuses:delete", args=[self.status.id])
+        )
         self.assertRedirects(response, reverse("statuses:list"))
         self.assertFalse(Status.objects.filter(id=self.status.id).exists())
 

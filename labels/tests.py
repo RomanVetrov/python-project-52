@@ -22,7 +22,10 @@ class LabelsCrudTests(TestCase):
 
     def test_create_label(self):
         self.client.login(username="user1", password="pass12345")
-        response = self.client.post(reverse("labels:create"), data={"name": "feature"})
+        response = self.client.post(
+            reverse("labels:create"),
+            data={"name": "feature"},
+        )
         self.assertRedirects(response, reverse("labels:list"))
         self.assertTrue(Label.objects.filter(name="feature").exists())
 
@@ -38,7 +41,9 @@ class LabelsCrudTests(TestCase):
 
     def test_delete_label(self):
         self.client.login(username="user1", password="pass12345")
-        response = self.client.post(reverse("labels:delete", args=[self.label.id]))
+        response = self.client.post(
+            reverse("labels:delete", args=[self.label.id])
+        )
         self.assertRedirects(response, reverse("labels:list"))
         self.assertFalse(Label.objects.filter(id=self.label.id).exists())
 

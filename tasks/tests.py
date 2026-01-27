@@ -36,7 +36,10 @@ class TasksCrudTests(TestCase):
 
     def test_guest_redirects_with_message(self):
         response = self.client.get(reverse("tasks:list"), follow=True)
-        self.assertContains(response, "Вы не авторизованы! Пожалуйста, выполните вход.")
+        self.assertContains(
+            response,
+            "Вы не авторизованы! Пожалуйста, выполните вход.",
+        )
         self.assertEqual(response.resolver_match.view_name, "login")
 
     def test_create_task(self):
@@ -80,20 +83,29 @@ class TasksCrudTests(TestCase):
 
     def test_filter_by_status(self):
         self.client.login(username="user1", password="pass12345")
-        response = self.client.get(reverse("tasks:list"), {"status": self.status2.id})
+        response = self.client.get(
+            reverse("tasks:list"),
+            {"status": self.status2.id},
+        )
         tasks = response.context["tasks"]
         self.assertEqual(list(tasks), [self.other_task])
 
     def test_filter_by_executor(self):
         self.client.login(username="user1", password="pass12345")
-        response = self.client.get(reverse("tasks:list"), {"executor": self.user2.id})
+        response = self.client.get(
+            reverse("tasks:list"),
+            {"executor": self.user2.id},
+        )
         tasks = response.context["tasks"]
         self.assertIn(self.task, tasks)
         self.assertNotIn(self.other_task, tasks)
 
     def test_filter_by_label(self):
         self.client.login(username="user1", password="pass12345")
-        response = self.client.get(reverse("tasks:list"), {"labels": self.label2.id})
+        response = self.client.get(
+            reverse("tasks:list"),
+            {"labels": self.label2.id},
+        )
         tasks = response.context["tasks"]
         self.assertEqual(list(tasks), [self.other_task])
 
@@ -111,7 +123,9 @@ class TasksCrudTests(TestCase):
             reverse("tasks:delete", args=[self.task.id]), follow=True
         )
 
-        self.assertTrue(Task.objects.filter(id=self.task.id).exists())  # НЕ удалилось
+        self.assertTrue(
+            Task.objects.filter(id=self.task.id).exists()
+        )  # НЕ удалилось
         self.assertContains(response, "Только автор задачи может удалить её")
 
     def test_author_can_delete_task(self):

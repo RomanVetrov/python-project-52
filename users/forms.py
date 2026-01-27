@@ -26,7 +26,13 @@ class UserUpdateForm(UserChangeForm):
 
     class Meta(UserChangeForm.Meta):
         model = User
-        fields = ("username", "first_name", "last_name", "password1", "password2")
+        fields = (
+            "username",
+            "first_name",
+            "last_name",
+            "password1",
+            "password2",
+        )
 
     def clean(self):
         cleaned = super().clean()

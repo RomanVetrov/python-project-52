@@ -33,7 +33,10 @@ class UserCreateView(CreateView):
     success_url = reverse_lazy("login")  # после регистрации на страницу входа
 
     def form_valid(self, form):
-        messages.success(self.request, _("Пользователь успешно зарегистрирован"))
+        messages.success(
+            self.request,
+            _("Пользователь успешно зарегистрирован"),
+        )
         return super().form_valid(form)
 
 
@@ -50,7 +53,7 @@ class OnlySelfMixin(UserPassesTestMixin):
         messages.error(
             self.request, _("У вас нет прав для изменения другого пользователя")
         )
-        return redirect("users:list")
+        return redirect(USERS_LIST_URL)
 
 
 class UserUpdateView(OnlySelfMixin, UpdateView):
@@ -69,7 +72,7 @@ class UserUpdateView(OnlySelfMixin, UpdateView):
 
 
 class UserDeleteView(OnlySelfMixin, DeleteView):
-    """Удаление собственного аккаунта; блокируется, если есть связанные задачи."""
+    """Удаление своего аккаунта; блокируется, если есть связанные задачи."""
 
     model = User
     template_name = "users/delete.html"
@@ -83,9 +86,12 @@ class UserDeleteView(OnlySelfMixin, DeleteView):
                 self.request,
                 _("Невозможно удалить пользователя, потому что он используется"),
             )
-            return redirect("users:list")
+            return redirect(USERS_LIST_URL)
 
-        messages.success(self.request, _("Пользователь успешно удален"))
+        messages.success(
+            self.request,
+            _("Пользователь успешно удален"),
+        )
         return response
 
 
