@@ -14,6 +14,7 @@ LABELS_LIST_URL = "labels:list"
 
 class LabelListView(LoginRequiredMessageMixin, ListView):
     """Список меток."""
+
     model = Label
     template_name = "labels/list.html"
     context_object_name = "labels"
@@ -21,6 +22,7 @@ class LabelListView(LoginRequiredMessageMixin, ListView):
 
 class LabelCreateView(LoginRequiredMessageMixin, CreateView):
     """Создание метки."""
+
     model = Label
     form_class = LabelForm
     template_name = "labels/create.html"
@@ -33,6 +35,7 @@ class LabelCreateView(LoginRequiredMessageMixin, CreateView):
 
 class LabelUpdateView(LoginRequiredMessageMixin, UpdateView):
     """Редактирование метки."""
+
     model = Label
     form_class = LabelForm
     template_name = "labels/update.html"
@@ -45,6 +48,7 @@ class LabelUpdateView(LoginRequiredMessageMixin, UpdateView):
 
 class LabelDeleteView(LoginRequiredMessageMixin, DeleteView):
     """Удаление метки; блокируем, если она используется задачами."""
+
     model = Label
     template_name = "labels/delete.html"
     success_url = reverse_lazy(LABELS_LIST_URL)

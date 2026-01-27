@@ -2,7 +2,13 @@ from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    UpdateView,
+)
 from django.utils.translation import gettext_lazy as _
 
 from core.mixins import LoginRequiredMessageMixin
@@ -15,6 +21,7 @@ TASKS_LIST_URL = "tasks:list"
 
 class TaskListView(LoginRequiredMessageMixin, ListView):
     """Список задач; виден только авторизованным пользователям."""
+
     model = Task
     template_name = "tasks/list.html"
     context_object_name = "tasks"
@@ -48,6 +55,7 @@ class TaskListView(LoginRequiredMessageMixin, ListView):
 
 class TaskDetailView(LoginRequiredMessageMixin, DetailView):
     """Карточка задачи с подробностями."""
+
     model = Task
     template_name = "tasks/detail.html"
     context_object_name = "task"
@@ -55,6 +63,7 @@ class TaskDetailView(LoginRequiredMessageMixin, DetailView):
 
 class TaskCreateView(LoginRequiredMessageMixin, CreateView):
     """Создание задачи; автор проставляется автоматически."""
+
     model = Task
     form_class = TaskForm
     template_name = "tasks/create.html"
@@ -68,6 +77,7 @@ class TaskCreateView(LoginRequiredMessageMixin, CreateView):
 
 class TaskUpdateView(LoginRequiredMessageMixin, UpdateView):
     """Редактирование задачи."""
+
     model = Task
     form_class = TaskForm
     template_name = "tasks/update.html"
@@ -80,6 +90,7 @@ class TaskUpdateView(LoginRequiredMessageMixin, UpdateView):
 
 class OnlyAuthorDeleteMixin(UserPassesTestMixin):
     """Миксин разрешает удаление задачи только её автору."""
+
     def test_func(self):
         return self.get_object().author_id == self.request.user.id
 
@@ -90,6 +101,7 @@ class OnlyAuthorDeleteMixin(UserPassesTestMixin):
 
 class TaskDeleteView(LoginRequiredMessageMixin, OnlyAuthorDeleteMixin, DeleteView):
     """Удаление задачи; авторизация и проверка авторства обязательны."""
+
     model = Task
     template_name = "tasks/delete.html"
     success_url = reverse_lazy(TASKS_LIST_URL)

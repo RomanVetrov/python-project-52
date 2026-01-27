@@ -80,17 +80,13 @@ class TasksCrudTests(TestCase):
 
     def test_filter_by_status(self):
         self.client.login(username="user1", password="pass12345")
-        response = self.client.get(
-            reverse("tasks:list"), {"status": self.status2.id}
-        )
+        response = self.client.get(reverse("tasks:list"), {"status": self.status2.id})
         tasks = response.context["tasks"]
         self.assertEqual(list(tasks), [self.other_task])
 
     def test_filter_by_executor(self):
         self.client.login(username="user1", password="pass12345")
-        response = self.client.get(
-            reverse("tasks:list"), {"executor": self.user2.id}
-        )
+        response = self.client.get(reverse("tasks:list"), {"executor": self.user2.id})
         tasks = response.context["tasks"]
         self.assertIn(self.task, tasks)
         self.assertNotIn(self.other_task, tasks)

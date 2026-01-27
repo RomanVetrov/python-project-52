@@ -6,48 +6,69 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('labels', '0001_initial'),
-        ('statuses', '0002_alter_status_created_at_alter_status_name'),
-        ('tasks', '0001_initial'),
+        ("labels", "0001_initial"),
+        ("statuses", "0002_alter_status_created_at_alter_status_name"),
+        ("tasks", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='task',
-            name='labels',
-            field=models.ManyToManyField(blank=True, related_name='tasks', to='labels.label', verbose_name='Labels'),
+            model_name="task",
+            name="labels",
+            field=models.ManyToManyField(
+                blank=True,
+                related_name="tasks",
+                to="labels.label",
+                verbose_name="Labels",
+            ),
         ),
         migrations.AlterField(
-            model_name='task',
-            name='author',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='authored_tasks', to=settings.AUTH_USER_MODEL, verbose_name='Author'),
+            model_name="task",
+            name="author",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="authored_tasks",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="Author",
+            ),
         ),
         migrations.AlterField(
-            model_name='task',
-            name='created_at',
-            field=models.DateTimeField(auto_now_add=True, verbose_name='Created at'),
+            model_name="task",
+            name="created_at",
+            field=models.DateTimeField(auto_now_add=True, verbose_name="Created at"),
         ),
         migrations.AlterField(
-            model_name='task',
-            name='description',
-            field=models.TextField(blank=True, verbose_name='Description'),
+            model_name="task",
+            name="description",
+            field=models.TextField(blank=True, verbose_name="Description"),
         ),
         migrations.AlterField(
-            model_name='task',
-            name='executor',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='executed_tasks', to=settings.AUTH_USER_MODEL, verbose_name='Executor'),
+            model_name="task",
+            name="executor",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="executed_tasks",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="Executor",
+            ),
         ),
         migrations.AlterField(
-            model_name='task',
-            name='name',
-            field=models.CharField(max_length=255, verbose_name='Name'),
+            model_name="task",
+            name="name",
+            field=models.CharField(max_length=255, verbose_name="Name"),
         ),
         migrations.AlterField(
-            model_name='task',
-            name='status',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='tasks', to='statuses.status', verbose_name='Status'),
+            model_name="task",
+            name="status",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="tasks",
+                to="statuses.status",
+                verbose_name="Status",
+            ),
         ),
     ]

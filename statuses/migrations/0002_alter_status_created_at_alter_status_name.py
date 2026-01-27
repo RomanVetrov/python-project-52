@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('statuses', '0001_initial'),
+        ("statuses", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='status',
-            name='created_at',
-            field=models.DateTimeField(auto_now_add=True, verbose_name='Created at'),
+            model_name="status",
+            name="created_at",
+            field=models.DateTimeField(auto_now_add=True, verbose_name="Created at"),
         ),
         migrations.AlterField(
-            model_name='status',
-            name='name',
-            field=models.CharField(max_length=255, unique=True, verbose_name='Name'),
+            model_name="status",
+            name="name",
+            field=models.CharField(max_length=255, unique=True, verbose_name="Name"),
         ),
     ]

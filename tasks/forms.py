@@ -18,7 +18,9 @@ class TaskForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Показываем ФИО в выпадающем списке исполнителей
-        self.fields["executor"].label_from_instance = lambda u: f"{u.first_name} {u.last_name}".strip() or u.username
+        self.fields["executor"].label_from_instance = (
+            lambda u: f"{u.first_name} {u.last_name}".strip() or u.username
+        )
 
     class Meta:
         model = Task
@@ -52,4 +54,6 @@ class TaskFilterForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["executor"].label_from_instance = lambda u: f"{u.first_name} {u.last_name}".strip() or u.username
+        self.fields["executor"].label_from_instance = (
+            lambda u: f"{u.first_name} {u.last_name}".strip() or u.username
+        )
