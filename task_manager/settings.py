@@ -10,9 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
-from pathlib import Path
-import dj_database_url
 import os
+import sys
+from pathlib import Path
+
+import dj_database_url
 from dotenv import load_dotenv
 
 
@@ -151,8 +153,8 @@ ROLLBAR = {
     "root": BASE_DIR,
 }
 
-# Инициализация Rollbar (только если токен задан)
-if ROLLBAR["access_token"]:
+# Инициализация Rollbar (только если токен задан и это не тесты)
+if ROLLBAR["access_token"] and "test" not in sys.argv:
     import rollbar
 
     rollbar.init(**ROLLBAR)
