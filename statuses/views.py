@@ -50,15 +50,14 @@ class StatusDeleteView(LoginRequiredMessageMixin, DeleteView):
     template_name = "statuses/delete.html"
     success_url = reverse_lazy(STATUSES_LIST_URL)
 
-    def form_valid(self, form):
-        try:
-            response = super().form_valid(form)
-        except ProtectedError:
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.tasks.exists():
             messages.error(
-                self.request,
+                request,
                 _("Невозможно удалить статус, потому что он используется"),
             )
             return redirect(STATUSES_LIST_URL)
 
-        messages.success(self.request, _("Статус успешно удален"))
-        return response
+        messages.success(request, _("Статус успешно удален"))
+        return super().post(request, *args, **kwargs)
