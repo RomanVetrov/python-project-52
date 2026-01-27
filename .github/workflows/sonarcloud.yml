@@ -30,6 +30,7 @@ jobs:
           # Используем uv run, чтобы покрытие видело зависимости проекта
           uv run coverage run manage.py test
           uv run coverage xml
+          ls -l coverage.xml
         env:
           # Базовые настройки для запуска Django в среде GitHub Actions
           DATABASE_URL: sqlite:///db.sqlite3
