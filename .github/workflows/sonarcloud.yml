@@ -17,18 +17,27 @@ jobs:
           fetch-depth: 0
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v3
+        uses: astral-sh/setup-uv@v5 # Актуальная версия на 2026 год
+
+      - name: Set up Python
+        run: uv python install 3.13
 
       - name: Install dependencies
-        run: uv sync --extra dev
+        run: uv sync --all-extras
 
       - name: Run tests with coverage
         run: |
-          UV_CACHE_DIR=/tmp/uv-cache uvx coverage run manage.py test
-          UV_CACHE_DIR=/tmp/uv-cache uvx coverage xml
+          # Используем uv run, чтобы покрытие видело зависимости проекта
+          uv run coverage run manage.py test
+          uv run coverage xml
+        env:
+          # Базовые настройки для запуска Django в среде GitHub Actions
+          DATABASE_URL: sqlite:///db.sqlite3
+          SECRET_KEY: "temporary-key-for-sonar-scan"
+          UV_CACHE_DIR: /tmp/uv-cache
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2
+        uses: SonarSource/sonarcloud-github-action@v3
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -37,6 +46,6 @@ jobs:
             -Dsonar.projectKey=RomanVetrov_python-project-83
             -Dsonar.organization=romanvetrov
             -Dsonar.sources=.
-            -Dsonar.python.version=3.12
-            -Dsonar.exclusions=**/migrations/**
+            -Dsonar.python.version=3.13
+            -Dsonar.exclusions=**/migrations/**,**/tests/**,manage.py,task_manager/asgi.py,task_manager/wsgi.py
             -Dsonar.python.coverage.reportPaths=coverage.xml
