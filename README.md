@@ -2,6 +2,7 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=RomanVetrov_python-project-52&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=RomanVetrov_python-project-52)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=RomanVetrov_python-project-52&metric=coverage)](https://sonarcloud.io/summary/new_code?id=RomanVetrov_python-project-52)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=RomanVetrov_python-project-52&metric=bugs)](https://sonarcloud.io/summary/new_code?id=RomanVetrov_python-project-52)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=RomanVetrov_python-project-52&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=RomanVetrov_python-project-52)
 
 ![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue)
 ![Django 6](https://img.shields.io/badge/django-6.0-0C4B33?logo=django&logoColor=white)
