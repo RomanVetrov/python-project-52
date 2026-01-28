@@ -7,6 +7,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 class LoginRequiredMessageMixin(AccessMixin):
+    """Редиректы на логин с сообщением, если пользователь не авторизован."""
+
     message = _("Вы не авторизованы! Пожалуйста, выполните вход.")
 
     def dispatch(self, request, *args, **kwargs):
@@ -16,7 +18,6 @@ class LoginRequiredMessageMixin(AccessMixin):
 
     def handle_no_permission(self):
         messages.error(self.request, self.message)
-
         login_url = self.get_login_url()
         next_url = self.request.get_full_path()
         query = urlencode({"next": next_url})

@@ -2,9 +2,9 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 
-from labels.models import Label
-from statuses.models import Status
-from tasks.models import Task
+from task_manager.labels.models import Label
+from task_manager.statuses.models import Status
+from task_manager.tasks.models import Task
 
 
 class LabelsCrudTests(TestCase):

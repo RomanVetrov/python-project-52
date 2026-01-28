@@ -18,18 +18,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-# from .views import test_rollbar
-
-from users.views import UserLoginView, UserLogoutView
+from task_manager.users.views import UserLoginView, UserLogoutView
+from task_manager.views import index
 
 urlpatterns = [
-    path("", include("core.urls")),
-    path("users/", include("users.urls")),
+    path("", index, name="index"),
+    path("users/", include("task_manager.users.urls")),
     path("login/", UserLoginView.as_view(), name="login"),
     path("logout/", UserLogoutView.as_view(), name="logout"),
     path("admin/", admin.site.urls),
-    path("statuses/", include("statuses.urls")),
-    path("tasks/", include("tasks.urls")),
-    path("labels/", include("labels.urls")),
-    # path('test-rollbar/', test_rollbar, name='test_rollbar'),
+    path("statuses/", include("task_manager.statuses.urls")),
+    path("tasks/", include("task_manager.tasks.urls")),
+    path("labels/", include("task_manager.labels.urls")),
 ]

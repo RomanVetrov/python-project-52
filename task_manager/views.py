@@ -1,10 +1,9 @@
-from django.http import HttpResponse
-from django.utils.translation import gettext as _
+from django.shortcuts import render
 
 
 def index(request):
-    """Простейший ответ для проверки работы приложения."""
-    return HttpResponse(_("Привет из таск менеджера!"))
+    """Главная страница с приветствием и меню."""
+    return render(request, "index.html")
 
 
 # def test_rollbar(request):

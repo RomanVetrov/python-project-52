@@ -7,9 +7,9 @@ from django.db.models.deletion import ProtectedError
 from django.http import HttpResponseNotAllowed
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
-from django.utils.translation import gettext_lazy as _
 
 from .forms import SignupForm, UserUpdateForm
 

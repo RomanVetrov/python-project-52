@@ -17,7 +17,6 @@ from pathlib import Path
 import dj_database_url
 from dotenv import load_dotenv
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -52,11 +51,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_bootstrap5",
-    "core",
-    "users",
-    "statuses",
-    "tasks",
-    "labels",
+    "task_manager.users",
+    "task_manager.statuses",
+    "task_manager.tasks",
+    "task_manager.labels",
 ]
 
 TESTING = "test" in sys.argv
@@ -77,7 +75,7 @@ ROOT_URLCONF = "task_manager.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "task_manager" / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -96,7 +94,7 @@ WSGI_APPLICATION = "task_manager.wsgi.application"
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    # По умолчанию используем SQLite, а в продакшене берём URL из окружения (PostgreSQL на Render)
+    # SQLite по умолчанию, в проде читаем URL (PostgreSQL на Render)
     "default": dj_database_url.config(
         default=os.getenv("DATABASE_URL", "sqlite:///db.sqlite3"),
         conn_max_age=600,
@@ -109,16 +107,25 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "UserAttributeSimilarityValidator"
+        ),
     },
     {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "NAME": (
+            "django.contrib.auth.password_validation.MinimumLengthValidator"
+        ),
     },
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+        "NAME": (
+            "django.contrib.auth.password_validation.CommonPasswordValidator"
+        ),
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+        "NAME": (
+            "django.contrib.auth.password_validation.NumericPasswordValidator"
+        ),
     },
 ]
 
