@@ -1,0 +1,10 @@
+line-length = 80
+target-version = "py312"
+extend-exclude = [
+    "migrations",
+    ".venv",
+    "staticfiles",
+]
+
+[lint]
+select = ["E", "F", "I"]
